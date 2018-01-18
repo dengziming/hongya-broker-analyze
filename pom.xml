@@ -1,0 +1,169 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.hongya.bigdata</groupId>
+  <artifactId>hongya-broker-analyze</artifactId>
+    <packaging>pom</packaging>
+    <version>1.0-SNAPSHOT</version>
+  <inceptionYear>2008</inceptionYear>
+    <modules>
+        <module>order-handle</module>
+        <module>order-visual</module>
+    </modules>
+
+
+
+  <properties>
+      <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+      <maven.compiler.version>1.8</maven.compiler.version>
+      <encoding>UTF-8</encoding>
+      <scala.version>2.11.8</scala.version>
+      <spark.version>2.1.0</spark.version>
+      <project.version>0.0.1-SNAPSHOT</project.version>
+      <mysql-connector.version>5.1.25</mysql-connector.version>
+      <guava.version>17.0</guava.version>
+      <gson.version>2.8.0</gson.version>
+      <slf4j-log4j12.version>1.7.16</slf4j-log4j12.version>
+      <log4j.version>1.2.17</log4j.version>
+      <kafka.version>0.10.1.1</kafka.version>
+      <fastjson.version>1.2.6</fastjson.version>
+      <jackson.version>2.8.8</jackson.version>
+      <lang3.version>3.5</lang3.version>
+      <typesafe-config.version>1.2.1</typesafe-config.version>
+      <fastjson.version>1.2.6</fastjson.version>
+      <maven.compiler.source>1.8</maven.compiler.source>
+      <maven.compiler.target>1.8</maven.compiler.target>
+  </properties>
+
+  <profiles>
+    <profile>
+      <!-- 本地开发环境 -->
+      <id>dev</id>
+      <properties>
+        <package.environment>dev</package.environment>
+        <spark.scope>compile</spark.scope>
+      </properties>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+    </profile>
+    <profile>
+      <!-- 测试环境 -->
+      <id>test</id>
+      <properties>
+        <package.environment>test</package.environment>
+        <spark.scope>provided</spark.scope>
+      </properties>
+    </profile>
+    <profile>
+      <!-- 生产环境 -->
+      <id>prod</id>
+      <properties>
+        <package.environment>prod</package.environment>
+        <spark.scope>provided</spark.scope>
+      </properties>
+    </profile>
+  </profiles>
+
+  <dependencies>
+
+  </dependencies>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.scala-lang</groupId>
+                <artifactId>scala-library</artifactId>
+                <version>${scala.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.spark</groupId>
+                <artifactId>spark-core_2.11</artifactId>
+                <version>${spark.version}</version>
+                <scope>${spark.scope}</scope>
+
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.spark</groupId>
+                <artifactId>spark-sql_2.11</artifactId>
+                <version>${spark.version}</version>
+                <scope>${spark.scope}</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.spark</groupId>
+                <artifactId>spark-streaming_2.11</artifactId>
+                <version>${spark.version}</version>
+                <scope>${spark.scope}</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.spark</groupId>
+                <artifactId>spark-sql-kafka-0-10_2.11</artifactId>
+                <version>${spark.version}</version>
+                <scope>${spark.scope}</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.spark</groupId>
+                <artifactId>spark-streaming-kafka-0-10_2.11</artifactId>
+                <version>${spark.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.spark</groupId>
+                <artifactId>spark-hive_2.11</artifactId>
+                <version>${spark.version}</version>
+                <scope>${spark.scope}</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>${fastjson.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.typesafe</groupId>
+                <artifactId>config</artifactId>
+                <version>${typesafe-config.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${mysql-connector.version}</version>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <sourceDirectory>src/main/scala</sourceDirectory>
+        <testSourceDirectory>src/test/scala</testSourceDirectory>
+        <resources>
+            <resource>
+                <directory>resources</directory>
+            </resource>
+            <resource>
+                <directory>resources/${package.environment}</directory>
+            </resource>
+        </resources>
+
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.5.1</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+        </plugins>
+
+
+    </build>
+
+</project>
