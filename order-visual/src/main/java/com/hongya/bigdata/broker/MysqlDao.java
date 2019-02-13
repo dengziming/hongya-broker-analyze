@@ -12,7 +12,44 @@ import java.util.Comparator;
  */
 public class MysqlDao {
 
+    public static void main(String[] args) {
+        String sql = "select\n" +
+                "    substring(date,1,16) as date,\n" +
+                "    count(1) as amouont,\n" +
+                "    sum(same) as same,\n" +
+                "    sum(same)*100.0/count(1) as ratio\n" +
+                "from\n" +
+                "    (\n" +
+                "    select \n" +
+                "        a.userid,a.orderid,a.date,\n" +
+                "        if (a.rule001=b.rule001,1,0) as same\n" +
+                "    from \n" +
+                "    \n" +
+                "        (\n" +
+                "        select \n" +
+                "            userid,orderid,date,rule001, rule002, rule003,rule004 ,rule005 ,rule006 ,rule007 ,rule008 ,rule009 ,rule010\n" +
+                "        from \n" +
+                "            t_audit_result\n" +
+                "        where code='人工'\n" +
+                "        ) a\n" +
+                "    left join\n" +
+                "        (\n" +
+                "        select \n" +
+                "            userid,orderid,date,rule001, rule002, rule003,rule004 ,rule005 ,rule006 ,rule007 ,rule008 ,rule009 ,rule010\n" +
+                "        from \n" +
+                "            t_audit_result\n" +
+                "        where code='机器'\n" +
+                "        ) b\n" +
+                "    on \n" +
+                "        a.userid=b.userid\n" +
+                "    and\n" +
+                "        a.orderid=b.orderid\n" +
+                "    ) t\n" +
+                "group by substring(date,1,16)";
 
+
+        System.out.println(executeQuery(sql));
+    }
 
 
     public static String executeQuery(String sql){
